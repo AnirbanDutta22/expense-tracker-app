@@ -44,9 +44,7 @@ const registerUser = asyncHandler(async (req, res, next) => {
   });
 
   //checking if user is created successfully
-  const createdUser = await User.findById(user._id).select(
-    "-password -refreshToken"
-  );
+  const createdUser = await User.findById(user._id).select("-password");
   if (!createdUser) {
     throw new ApiErrorHandler(500, "Something went wrong!");
   }
@@ -89,7 +87,8 @@ const loginUser = asyncHandler(async (req, res, next) => {
   //configuring cookie options
   const options = {
     httpOnly: true,
-    secure: true,
+    secure: false,
+    expires: new Date(Date.now() + 60 * 60 * 24 * 1000),
   };
 
   return res
@@ -102,6 +101,29 @@ const loginUser = asyncHandler(async (req, res, next) => {
 });
 
 //logout user
-const logoutUser = asyncHandler(async (req, res, next) => {});
+const logoutUser = asyncHandler(async (req, res, next) => {
+  await User.findByIdAndUpdate(
+    req.user._id,
+    {
+      $unset: {
+        refreshToken: 1,
+      },
+    },
+    {
+      new: true,
+    }
+  );
+
+  const options = {
+    httpOnly: true,
+    secure: false,
+  };
+
+  return res
+    .status(200)
+    .clearCookie("accessToken", options)
+    .clearCookie("refreshToken", options)
+    .json(new ApiResponseHandler(200, "User logged Out", {}));
+});
 
 module.exports = { registerUser, loginUser, logoutUser };

@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import AuthLayout from "../Layout/AuthLayout";
 
-export default function Register() {
+export default function Login() {
   const user = useSelector((store) => store.app.users);
   const navigate = useNavigate();
 
@@ -14,17 +14,15 @@ export default function Register() {
   }, []);
   return (
     <AuthLayout
-      target_route="register"
-      formTitle="Sign up"
-      formText="Register and be an Expense Tracker user now !"
-      user_name="Your name"
+      target_route="login"
+      formTitle="Sign in"
+      formText="Welcome back !"
       user_email="Your email"
       user_password="Password"
-      tc_text
-      submit_btn="Sign up"
-      route_text="Already have an account "
-      route_link="/login"
-      route_type="Sign in"
+      submit_btn="Sign in"
+      route_text="Account not created yet ? "
+      route_link="/register"
+      route_type="Sign up"
     />
   );
 }
