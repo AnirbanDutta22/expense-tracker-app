@@ -1,8 +1,18 @@
 import { Button, Typography } from "@material-tailwind/react";
-import { Link } from "react-router-dom";
+import { useEffect } from "react";
+import { useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
 import Layout from "../Layout/Layout";
 
 export default function Home() {
+  const user = useSelector((store) => store.app.users);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (user) {
+      navigate("/dashboard");
+    }
+  }, []);
   return (
     <Layout>
       <section className="mt-36 h-auto">
@@ -14,12 +24,13 @@ export default function Home() {
             Keep track of your daily expenses
           </Typography>
           <p className="mb-8 text-lg font-normal text-black lg:text-xl sm:px-16 xl:px-48 dark:text-gray-400">
-            Here at we focus on markets where technology, innovation, and
-            capital can unlock long-term value and drive economic growth.
+            Welcome to the Expense Tracker App! This is a MERN stack based
+            application designed to help you keep track of your expenses easily
+            and efficiently.
           </p>
           <div className="flex flex-col mb-8 lg:mb-16 space-y-4 sm:flex-row sm:justify-center sm:space-y-0 sm:space-x-4">
             <Link
-              to={{ pathname: "https://github.com/AnirbanDutta22" }}
+              to="https://github.com/AnirbanDutta22/expense-tracker-app"
               target="_blank"
             >
               <Button

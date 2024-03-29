@@ -23,7 +23,7 @@ export default function Dashboard() {
 
   return (
     <DashboardLayout>
-      <div className="flex flex-col p-4 lg:p-8 basis-7/12 gap-8">
+      <div className="flex flex-col p-4 lg:p-8 basis-full lg:basis-7/12 gap-8">
         <div className="flex justify-between items-center gap-6">
           <ExpenseCard
             title="Food & Drinks"
@@ -45,7 +45,7 @@ export default function Dashboard() {
           <ExpenseChart />
         </div>
       </div>
-      <div className="transaction_div p-4 lg:p-8 basis-5/12">
+      <div className="transaction_div p-4 lg:p-8 basis:0 lg:basis-5/12">
         <TransactionCard />
       </div>
     </DashboardLayout>

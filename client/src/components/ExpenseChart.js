@@ -98,7 +98,7 @@ const chartConfig = {
 
 export default function ExpenseChart() {
   return (
-    <Card className="w-full">
+    <Card className="w-3/6 lg:w-full">
       <CardHeader
         floated={false}
         shadow={false}

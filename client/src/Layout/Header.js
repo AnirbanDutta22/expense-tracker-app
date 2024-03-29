@@ -8,7 +8,7 @@ export default function Header() {
   const user = useSelector((store) => store.app.users);
   console.log(user);
   return (
-    <div className="py-2 lg:py-4 shadow-md">
+    <div className="py-2 lg:py-4 shadow-md w-full">
       <div className="px-12 flex items-center justify-between text-blue-gray-900">
         <Typography
           as="a"
