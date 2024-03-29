@@ -1,4 +1,5 @@
 import { Button, Typography } from "@material-tailwind/react";
+import { Link } from "react-router-dom";
 import Layout from "../Layout/Layout";
 
 export default function Home() {
@@ -17,9 +18,18 @@ export default function Home() {
             capital can unlock long-term value and drive economic growth.
           </p>
           <div className="flex flex-col mb-8 lg:mb-16 space-y-4 sm:flex-row sm:justify-center sm:space-y-0 sm:space-x-4">
-            <Button variant="gradient" size="lg" className="inline-block">
-              <span>Learn more</span>
-            </Button>
+            <Link
+              to={{ pathname: "https://github.com/AnirbanDutta22" }}
+              target="_blank"
+            >
+              <Button
+                variant="gradient"
+                size="lg"
+                className="inline-block capitalize"
+              >
+                <span>Github</span>
+              </Button>
+            </Link>
           </div>
         </div>
       </section>

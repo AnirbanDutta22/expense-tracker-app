@@ -26,7 +26,9 @@ export default function Header() {
             </Link>
           ) : (
             <>
-              <span className="capitalize">Hi, {user.name} !</span>
+              <span className="capitalize">
+                Hi, {user.name.split(" ")[0]} !
+              </span>
               <Link to="#">
                 <UserCircleIcon className="ml-4 w-10 h-10" />
               </Link>

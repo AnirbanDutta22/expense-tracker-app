@@ -6,6 +6,7 @@ import {
   Typography,
 } from "@material-tailwind/react";
 import axios from "axios";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
@@ -13,6 +14,7 @@ import { setUser } from "../features/users/userSlice";
 import { API_END_POINT } from "../utils/constants";
 
 export default function AuthLayout(props) {
+  const [serverErrors, setServerErrors] = useState(null);
   const {
     register,
     handleSubmit,
@@ -29,6 +31,8 @@ export default function AuthLayout(props) {
         { withCredentials: true }
       );
       console.log(res);
+
+      //functionality based on route's hit
       if (props.target_route === "login") {
         dispatch(setUser(res.data.data));
         navigate("/dashboard");
@@ -44,17 +48,19 @@ export default function AuthLayout(props) {
           { withCredentials: true }
         );
         console.log(res);
-        dispatch(setUser(res.data));
+        dispatch(setUser(res.data.data));
         navigate("/dashboard");
       }
     } catch (error) {
       console.log(error);
+      setServerErrors(error.response.data.message);
     }
     e.target.reset();
   };
+
   return (
-    <section className="h-screen flex items-center justify-center">
-      <Card color="transparent" shadow={false}>
+    <section className="h-screen flex items-center justify-center bg-blue-50">
+      <Card color="white" className="p-8 shadow-md" shadow={false}>
         <Typography variant="h4" color="blue-gray">
           {props.formTitle}
         </Typography>
@@ -136,6 +142,9 @@ export default function AuthLayout(props) {
               }
               containerProps={{ className: "-ml-2.5" }}
             />
+          )}
+          {serverErrors && (
+            <p className="text-red-700 text-center text-lg">{serverErrors}</p>
           )}
           <Button className="mt-6" fullWidth type="submit">
             {props.submit_btn}
