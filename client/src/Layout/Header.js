@@ -25,10 +25,12 @@ export default function Header() {
               </Button>
             </Link>
           ) : (
-            <Link to="#">
-              <UserCircleIcon />
-              <span>{user.name.toUpperCase()}</span>
-            </Link>
+            <>
+              <span className="capitalize">Hi, {user.name} !</span>
+              <Link to="#">
+                <UserCircleIcon className="ml-4 w-10 h-10" />
+              </Link>
+            </>
           )}
         </div>
       </div>

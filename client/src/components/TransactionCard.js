@@ -10,6 +10,7 @@ import {
   Typography,
 } from "@material-tailwind/react";
 import axios from "axios";
+import moment from "moment";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -80,7 +81,7 @@ export default function TransactionCard() {
   };
 
   return (
-    <Card className="w-full">
+    <Card className="w-full h-full">
       <CardHeader floated={false} shadow={false} className="rounded-none">
         <div className="flex mt-4 items-center justify-between gap-8">
           <div>
@@ -107,9 +108,9 @@ export default function TransactionCard() {
           </div>
         </div>
       </CardHeader>
-      <CardBody className="overflow-scroll px-0">
+      <CardBody className="overflow-scroll px-0 flex-grow">
         <table
-          className="mt-2 w-full min-w-max table-auto text-left"
+          className="mt-2 w-full min-w-max table-auto text-left capitalize"
           id="dataTable"
         >
           <thead>
@@ -145,7 +146,7 @@ export default function TransactionCard() {
                       color="blue-gray"
                       className="font-normal"
                     >
-                      {transaction.date}
+                      {moment(transaction.date).format("DD-MM-YYYY")}
                     </Typography>
                   </td>
                   <td className={classes}>
@@ -200,7 +201,7 @@ export default function TransactionCard() {
       </CardBody>
       <CardFooter className="flex items-center justify-between border-t border-blue-gray-50 p-4">
         <Typography variant="small" color="blue-gray" className="font-normal">
-          Page 1 of 10
+          Page 1 of 5
         </Typography>
         <div className="flex gap-2">
           <Button variant="outlined" size="sm">
