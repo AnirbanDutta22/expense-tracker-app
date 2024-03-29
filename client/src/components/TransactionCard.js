@@ -13,11 +13,7 @@ import axios from "axios";
 import moment from "moment";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  addExpense,
-  removeExpense,
-  updateExpense,
-} from "../features/expenses/expenseSlice";
+import { addExpense, removeExpense } from "../features/expenses/expenseSlice";
 import { API_END_POINT } from "../utils/constants";
 import ExpenseForm from "./ExpenseForm";
 
@@ -64,20 +60,8 @@ export default function TransactionCard() {
   };
 
   // edit transaction
-  const editTransaction = async (transaction_id) => {
-    try {
-      setOpen((cur) => !cur);
-
-      const res = await axios.post(
-        `${API_END_POINT}/dashboard/update-transaction`,
-        { transaction_id: transaction_id },
-        { withCredentials: true }
-      );
-      console.log(res);
-      dispatch(updateExpense(transaction_id));
-    } catch (error) {
-      console.log(error);
-    }
+  const editTransaction = (transaction_id) => {
+    // setOpen((cur) => !cur); #editing functinality not added
   };
 
   return (

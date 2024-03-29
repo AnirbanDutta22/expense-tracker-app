@@ -74,12 +74,21 @@ const deleteTransaction = asyncHandler(async (req, res, next) => {
 
 //update transactions
 const updateTransaction = asyncHandler(async (req, res, next) => {
-  const { _id: transaction_id, payload: payload } = req.body;
+  const { transaction_id, amount, category, date, description } = req.body;
 
-  const updatedTransaction = await Transaction.findOneAndUpdate({
-    _id,
-    payload,
-  });
+  const updatedTransaction = await Transaction.findOneAndUpdate(
+    {
+      _id: transaction_id,
+    },
+    {
+      $set: {
+        amount: amount,
+        category: category,
+        date: date,
+        description: description,
+      },
+    }
+  );
   if (!updatedTransaction) {
     throw new ApiErrorHandler(500, "Failed to update transaction !");
   }
@@ -89,7 +98,7 @@ const updateTransaction = asyncHandler(async (req, res, next) => {
       new ApiResponseHandler(
         201,
         "Transaction updated successfully !",
-        deletedTransaction
+        updatedTransaction
       )
     );
 });
