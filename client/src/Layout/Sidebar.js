@@ -8,7 +8,7 @@ import axios from "axios";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { NavLink, useNavigate } from "react-router-dom";
-import { removeExpense } from "../features/expenses/expenseSlice";
+import { clearExpense } from "../features/expenses/expenseSlice";
 import { setUser } from "../features/users/userSlice";
 import { API_END_POINT } from "../utils/constants";
 
@@ -32,7 +32,7 @@ export default function Sidebar() {
       );
       console.log(res);
       dispatch(setUser(null));
-      dispatch(removeExpense());
+      dispatch(clearExpense());
       navigate("/login");
     } catch (error) {
       console.log(error);
