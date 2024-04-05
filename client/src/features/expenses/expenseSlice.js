@@ -19,7 +19,13 @@ export const expenseSlice = createSlice({
     clearExpense: (state, action) => {
       state.expenses = [];
     },
-    updateExpense: (state, action) => {},
+    updateExpense: (state, action) => {
+      let updatableExpense = state.expenses.filter(
+        (expense) => expense._id === action.payload.transaction_id
+      );
+      updatableExpense = action.payload;
+      state.expenses.push(updatableExpense);
+    },
   },
 });
 
