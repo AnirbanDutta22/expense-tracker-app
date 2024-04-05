@@ -18,5 +18,8 @@
   "bugs": {
     "url": "https://github.com/AnirbanDutta22/expense-tracker-app/issues"
   },
-  "homepage": "https://github.com/AnirbanDutta22/expense-tracker-app#readme"
+  "homepage": "https://github.com/AnirbanDutta22/expense-tracker-app#readme",
+  "dependencies": {
+    "concurrently": "^8.2.2"
+  }
 }

@@ -10,12 +10,14 @@ dotenv.config({ path: path.resolve(__dirname, "../../.env") });
 
 //database connection
 (async () => {
-  await mongoose
-    .connect(`${process.env.MONGODB_URI}/${DB_NAME}`)
-    .then(
-      app.listen(process.env.PORT, () => {
-        console.log(`Listening to the port ${process.env.PORT}`);
-      })
-    )
-    .catch((err) => console.log(err));
+  try {
+    await mongoose.connect(`${process.env.MONGODB_URI}/${DB_NAME}`);
+
+    app.listen(process.env.PORT, () => {
+      console.log(`Listening to the port ${process.env.PORT}`);
+    });
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
 })();
