@@ -35,7 +35,8 @@ export default function ExpenseForm() {
         { withCredentials: true }
       );
       console.log(res);
-      dispatch(addExpense(res.data.data));
+      const { amount, category, date, description } = res.data.data;
+      dispatch(addExpense({ amount, category, date, description }));
     } catch (error) {
       console.log(error);
     }

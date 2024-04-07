@@ -42,7 +42,7 @@ export default function TransactionCard() {
         console.log(error);
       }
     })();
-  }, [dispatch]);
+  }, [dispatch, user]);
 
   // delete transaction
   const delTransaction = async (transaction_id) => {
