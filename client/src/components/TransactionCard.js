@@ -11,7 +11,7 @@ import {
 } from "@material-tailwind/react";
 import axios from "axios";
 import moment from "moment";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addExpense, removeExpense } from "../features/expenses/expenseSlice";
 import { API_END_POINT } from "../utils/constants";
@@ -20,12 +20,21 @@ import ExpenseForm from "./ExpenseForm";
 const TABLE_HEAD = ["Date", "Category", "Amount", "Description", "Action"];
 
 export default function TransactionCard() {
+  //refs
+  const amountRef = useRef([]);
+  const categoryRef = useRef([]);
+  const dateRef = useRef([]);
+  const descriptionRef = useRef([]);
+  //states
   const [open, setOpen] = useState(false);
+  const [formValues, setFormValues] = useState(null);
+  //necessary methods
   const handleOpen = () => setOpen((cur) => !cur);
   const user = useSelector((store) => store.app.users);
   const expenses = useSelector((store) => store.tran.expenses);
   const dispatch = useDispatch();
 
+  //get transaction
   useEffect(() => {
     (async (data) => {
       try {
@@ -61,7 +70,14 @@ export default function TransactionCard() {
 
   // edit transaction
   const editTransaction = (transaction_id) => {
-    // setOpen((cur) => !cur); #editing functinality not added
+    setOpen((cur) => !cur); // opens the form
+    setFormValues({
+      transaction_id: transaction_id,
+      amount: amountRef.current[transaction_id].innerHTML,
+      date: dateRef.current[transaction_id].innerHTML,
+      category: categoryRef.current[transaction_id].innerHTML,
+      description: descriptionRef.current[transaction_id].innerHTML,
+    });
   };
 
   return (
@@ -87,7 +103,11 @@ export default function TransactionCard() {
               handler={handleOpen}
               className="bg-transparent shadow-none"
             >
-              <ExpenseForm />
+              <ExpenseForm
+                setOpen={setOpen}
+                formValues={formValues}
+                setFormValues={setFormValues}
+              />
             </Dialog>
           </div>
         </div>
@@ -129,6 +149,7 @@ export default function TransactionCard() {
                       variant="small"
                       color="blue-gray"
                       className="font-normal"
+                      ref={(el) => (dateRef.current[transaction._id] = el)}
                     >
                       {moment(transaction.date).format("DD-MM-YYYY")}
                     </Typography>
@@ -138,6 +159,7 @@ export default function TransactionCard() {
                       variant="small"
                       color="blue-gray"
                       className="font-normal"
+                      ref={(el) => (categoryRef.current[transaction._id] = el)}
                     >
                       {transaction.category}
                     </Typography>
@@ -147,6 +169,7 @@ export default function TransactionCard() {
                       variant="small"
                       color="blue-gray"
                       className="font-normal"
+                      ref={(el) => (amountRef.current[transaction._id] = el)}
                     >
                       {transaction.amount}
                     </Typography>
@@ -156,6 +179,9 @@ export default function TransactionCard() {
                       variant="small"
                       color="blue-gray"
                       className="font-normal"
+                      ref={(el) =>
+                        (descriptionRef.current[transaction._id] = el)
+                      }
                     >
                       {transaction.description}
                     </Typography>

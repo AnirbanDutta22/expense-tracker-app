@@ -9,7 +9,18 @@ export const expenseSlice = createSlice({
   initialState,
   reducers: {
     addExpense: (state, action) => {
-      state.expenses.push(action.payload);
+      const newExpense = action.payload;
+      const existingExpenseIndex = state.expenses.findIndex(
+        (expense) => expense._id === newExpense._id
+      );
+      if (existingExpenseIndex !== -1) {
+        // If item already exists, update it
+        state.expenses[existingExpenseIndex] = newExpense;
+      } else {
+        // Otherwise, add it to the cart
+        state.expenses.push(newExpense);
+      }
+      // state.expenses.push(action.payload);
     },
     removeExpense: (state, action) => {
       state.expenses = state.expenses.filter(
@@ -20,11 +31,12 @@ export const expenseSlice = createSlice({
       state.expenses = [];
     },
     updateExpense: (state, action) => {
-      let updatableExpense = state.expenses.filter(
-        (expense) => expense._id === action.payload.transaction_id
-      );
-      updatableExpense = action.payload;
-      state.expenses.push(updatableExpense);
+      const { _id } = action.payload;
+      let updatableExpense = state.expenses.find((data) => data._id === _id);
+
+      if (updatableExpense) {
+        updatableExpense = action.payload;
+      }
     },
   },
 });
