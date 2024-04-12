@@ -87,7 +87,8 @@ const updateTransaction = asyncHandler(async (req, res, next) => {
         date: date,
         description: description,
       },
-    }
+    },
+    { new: true }
   );
   if (!updatedTransaction) {
     throw new ApiErrorHandler(500, "Failed to update transaction !");
