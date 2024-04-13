@@ -13,14 +13,28 @@ export const expenseSlice = createSlice({
       const existingExpenseIndex = state.expenses.findIndex(
         (expense) => expense._id === newExpense._id
       );
+      let newExpenseIndex = state.expenses.findIndex(
+        (expense) => expense.date <= newExpense.date
+      );
       if (existingExpenseIndex !== -1) {
-        // If item already exists, update it
+        //if the expense already exists, update it
         state.expenses[existingExpenseIndex] = newExpense;
       } else {
-        // Otherwise, add it to the cart
-        state.expenses.push(newExpense);
+        //if the expense is new
+        if (newExpenseIndex !== -1) {
+          //in case of expenses having same date
+          while (
+            newExpenseIndex < state.expenses.length &&
+            state.expenses[newExpenseIndex].date === newExpense.date
+          ) {
+            newExpenseIndex++;
+          }
+          state.expenses.splice(newExpenseIndex, 0, newExpense);
+        } else {
+          //expenses having different date
+          state.expenses.push(newExpense);
+        }
       }
-      // state.expenses.push(action.payload);
     },
     removeExpense: (state, action) => {
       state.expenses = state.expenses.filter(

@@ -103,6 +103,7 @@ export default function ExpenseForm({ setOpen, formValues, setFormValues }) {
           </Typography>
           <Input
             type="date"
+            max={new Date().toJSON().slice(0, 10)}
             size="lg"
             {...register("date", { required: "Date is required" })}
           />

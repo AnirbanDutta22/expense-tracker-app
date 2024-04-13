@@ -7,7 +7,7 @@ const Transaction = require("../models/transaction.model");
 const getTransaction = asyncHandler(async (req, res, next) => {
   const transactionData = await Transaction.find({
     userid: req.body.userid,
-  });
+  }).sort({ date: -1 });
 
   //checking if any data available
   if (!transactionData) {
