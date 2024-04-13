@@ -28,6 +28,8 @@ export default function TransactionCard() {
   //states
   const [open, setOpen] = useState(false);
   const [formValues, setFormValues] = useState(null);
+  const [startIndex, setStartIndex] = useState(0);
+  const [endIndex, setEndIndex] = useState(7);
   //necessary methods
   const handleOpen = () => setOpen((cur) => !cur);
   const user = useSelector((store) => store.app.users);
@@ -136,88 +138,108 @@ export default function TransactionCard() {
             </tr>
           </thead>
           <tbody>
-            {expenses.map((transaction, index) => {
-              const isLast = index === expenses.length - 1;
-              const classes = isLast
-                ? "p-4"
-                : "p-4 border-b border-blue-gray-50";
+            {expenses
+              .map((transaction, index) => {
+                const isLast = index === expenses.length - 1;
+                const classes = isLast
+                  ? "p-4"
+                  : "p-4 border-b border-blue-gray-50";
 
-              return (
-                <tr key={transaction._id}>
-                  <td className={classes}>
-                    <Typography
-                      variant="small"
-                      color="blue-gray"
-                      className="font-normal"
-                      ref={(el) => (dateRef.current[transaction._id] = el)}
-                    >
-                      {moment(transaction.date).format("DD-MM-YYYY")}
-                    </Typography>
-                  </td>
-                  <td className={classes}>
-                    <Typography
-                      variant="small"
-                      color="blue-gray"
-                      className="font-normal"
-                      ref={(el) => (categoryRef.current[transaction._id] = el)}
-                    >
-                      {transaction.category}
-                    </Typography>
-                  </td>
-                  <td className={classes}>
-                    <Typography
-                      variant="small"
-                      color="blue-gray"
-                      className="font-normal"
-                      ref={(el) => (amountRef.current[transaction._id] = el)}
-                    >
-                      {transaction.amount}
-                    </Typography>
-                  </td>
-                  <td className={classes}>
-                    <Typography
-                      variant="small"
-                      color="blue-gray"
-                      className="font-normal"
-                      ref={(el) =>
-                        (descriptionRef.current[transaction._id] = el)
-                      }
-                    >
-                      {transaction.description}
-                    </Typography>
-                  </td>
-                  <td className={classes}>
-                    <IconButton
-                      variant="text"
-                      id="edit"
-                      onClick={() => editTransaction(transaction._id)}
-                    >
-                      <PencilIcon className="h-4 w-4" />
-                    </IconButton>
+                return (
+                  <tr key={transaction._id}>
+                    <td className={classes}>
+                      <Typography
+                        variant="small"
+                        color="blue-gray"
+                        className="font-normal"
+                        ref={(el) => (dateRef.current[transaction._id] = el)}
+                      >
+                        {moment(transaction.date).format("DD-MM-YYYY")}
+                      </Typography>
+                    </td>
+                    <td className={classes}>
+                      <Typography
+                        variant="small"
+                        color="blue-gray"
+                        className="font-normal"
+                        ref={(el) =>
+                          (categoryRef.current[transaction._id] = el)
+                        }
+                      >
+                        {transaction.category}
+                      </Typography>
+                    </td>
+                    <td className={classes}>
+                      <Typography
+                        variant="small"
+                        color="blue-gray"
+                        className="font-normal"
+                        ref={(el) => (amountRef.current[transaction._id] = el)}
+                      >
+                        {transaction.amount}
+                      </Typography>
+                    </td>
+                    <td className={classes}>
+                      <Typography
+                        variant="small"
+                        color="blue-gray"
+                        className="font-normal"
+                        ref={(el) =>
+                          (descriptionRef.current[transaction._id] = el)
+                        }
+                      >
+                        {transaction.description}
+                      </Typography>
+                    </td>
+                    <td className={classes}>
+                      <IconButton
+                        variant="text"
+                        id="edit"
+                        onClick={() => editTransaction(transaction._id)}
+                      >
+                        <PencilIcon className="h-4 w-4" />
+                      </IconButton>
 
-                    <IconButton
-                      variant="text"
-                      id="del"
-                      onClick={() => delTransaction(transaction._id)}
-                    >
-                      <TrashIcon className="h-4 w-4" />
-                    </IconButton>
-                  </td>
-                </tr>
-              );
-            })}
+                      <IconButton
+                        variant="text"
+                        id="del"
+                        onClick={() => delTransaction(transaction._id)}
+                      >
+                        <TrashIcon className="h-4 w-4" />
+                      </IconButton>
+                    </td>
+                  </tr>
+                );
+              })
+              .slice(startIndex, endIndex)}
           </tbody>
         </table>
       </CardBody>
       <CardFooter className="flex items-center justify-between border-t border-blue-gray-50 p-4">
         <Typography variant="small" color="blue-gray" className="font-normal">
-          Page 1 of 5
+          Page {startIndex / 7 + 1} of {Math.ceil(expenses.length / 7)}
         </Typography>
         <div className="flex gap-2">
-          <Button variant="outlined" size="sm">
+          <Button
+            variant="outlined"
+            size="sm"
+            disabled={startIndex === 0}
+            onClick={() => {
+              setStartIndex(startIndex - 7);
+              setEndIndex(endIndex - 7);
+            }}
+          >
             Previous
           </Button>
-          <Button variant="outlined" size="sm">
+          <Button
+            variant="outlined"
+            size="sm"
+            disabled={endIndex >= expenses.length}
+            onClick={() => {
+              setStartIndex(startIndex + 7);
+              setEndIndex(endIndex + 7);
+            }}
+          >
             Next
           </Button>
         </div>

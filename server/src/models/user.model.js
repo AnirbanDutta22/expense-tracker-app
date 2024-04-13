@@ -45,9 +45,9 @@ userSchema.methods.generateAccessToken = function () {
       email: this.email,
       name: this.name,
     },
-    process.env.ACCESS_TOKEN_SECRET,
+    process.env.ACCESS_TOKEN_SECRET2,
     {
-      expiresIn: "1d",
+      expiresIn: process.env.ACCESS_TOKEN_EXPIRY,
     }
   );
 };
@@ -58,9 +58,9 @@ userSchema.methods.generateRefreshToken = function () {
     {
       id: this._id,
     },
-    process.env.REFRESH_TOKEN_SECRET,
+    process.env.REFRESH_TOKEN_SECRET2,
     {
-      expiresIn: "10d",
+      expiresIn: process.env.REFRESH_TOKEN_EXPIRY,
     }
   );
 };
